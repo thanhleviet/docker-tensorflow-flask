@@ -1,6 +1,7 @@
 FROM tensorflow/tensorflow
 
 # Based on Dockerfile by Sebastian Ramirez <tiangolo@gmail.com>
+# https://github.com/tiangolo/uwsgi-nginx-flask-docker
 MAINTAINER Thanh Le <lethanhx2k@gmail.com>
 # Install uWSGI
 RUN pip install uwsgi
@@ -32,9 +33,14 @@ COPY nginx.conf /etc/nginx/conf.d/
 COPY uwsgi.ini /etc/uwsgi/
 
 # Install Supervisord
-RUN apt-get update && apt-get install -y supervisor \
+RUN apt-get install -y supervisor \
 && rm -rf /var/lib/apt/lists/*
+
+#Install flask
+RUN pip install flask
+
 # Custom Supervisord config
+
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 COPY ./app /app

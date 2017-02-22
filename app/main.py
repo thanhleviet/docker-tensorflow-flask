@@ -1,4 +1,11 @@
-def application(env, start_response):
-    start_response('200 OK', [('Content-Type', 'text/html')])
-    return ["Hello World from a default Nginx uWSGI Python 2.7 app in a\
-            Docker container (default)"]
+from flask import Flask
+import tensorflow as tf
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+   return "Tensorflow version {}".format(tf.__version__)
+
+if __name__ == "__main__":
+   app.run(host='0.0.0.0', debug=True, port=80)
